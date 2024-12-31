@@ -1,0 +1,78 @@
+
+                            </div>
+                        </div>
+                        <div id="kt_app_footer" class="app-footer">
+                            <div class="app-container container-fluid d-flex flex-column flex-md-row flex-center flex-md-stack py-3">
+                                <div class="text-gray-900 order-2 order-md-1">
+                                    <span class="text-muted fw-semibold me-1">2024&copy;</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+			</div>
+		</div>
+
+		<script src="__ADMIN__/plugins/global/plugins.bundle.js"></script>
+		<script src="__ADMIN__/js/scripts.bundle.js"></script>
+		<script src="__ADMIN__/plugins/custom/fullcalendar/fullcalendar.bundle.js"></script>
+		<script src="__ADMIN__/plugins/custom/datatables/datatables.bundle.js"></script>
+		<script src="__ADMIN__/js/widgets.bundle.js"></script>
+		<script src="__ADMIN__/js/custom/widgets.js"></script>
+		<script src="__ADMIN__/js/custom/apps/chat/chat.js"></script>
+		<script src="__ADMIN__/js/custom/utilities/modals/users-search.js"></script>
+        <script>
+            function refreshPage() {
+                location.reload(); // 刷新当前页面
+            }
+
+            out_order();
+            function out_order() {
+                $.ajax({
+                    url: "{{:getConfig('backstage_entrance')}}/admin_footer/out_order",
+                    method: 'POST',
+                    dataType: 'json',
+                    success: function(res) {
+                        if (res.code === 200) {
+                            if(res.data.order_cz != 0){
+                                var utterThis = new window.SpeechSynthesisUtterance('您有'+res.data.order_cz+'笔业务充值订单带处理');
+                                utterThis.pitch=1
+                                utterThis.rate=1.2
+                                utterThis.voiceURI='BaiduMandarinMale'
+                                window.speechSynthesis.speak(utterThis);
+                            }
+                            if(res.data.order_cx != 0){
+                                var utterThis = new window.SpeechSynthesisUtterance('您有'+res.data.order_cx+'笔业务查询订单带处理');
+                                utterThis.pitch=1
+                                utterThis.rate=1.2
+                                utterThis.voiceURI='BaiduMandarinMale'
+                                window.speechSynthesis.speak(utterThis);
+                            }
+                            if(res.data.recharge != 0){
+                                var utterThis = new window.SpeechSynthesisUtterance('您有'+res.data.recharge+'笔余额充值订单带处理');
+                                utterThis.pitch=1
+                                utterThis.rate=1.2
+                                utterThis.voiceURI='BaiduMandarinMale'
+                                window.speechSynthesis.speak(utterThis);
+                            }
+                            if(res.data.withdrawal != 0){
+                                var utterThis = new window.SpeechSynthesisUtterance('您有'+res.data.withdrawal+'笔余额提现订单带处理');
+                                utterThis.pitch=1
+                                utterThis.rate=1.2
+                                utterThis.voiceURI='BaiduMandarinMale'
+                                window.speechSynthesis.speak(utterThis);
+                            }
+                            setTimeout(function (){
+                                out_order();
+                            }, 600000);
+                        }else{
+                            setTimeout(function (){
+                                out_order();
+                            },10000);
+                        }
+                    }
+                });
+            };
+        </script>
+	</body>
+</html>
